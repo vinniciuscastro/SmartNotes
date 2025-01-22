@@ -39,7 +39,6 @@ class NotesCreateView(CreateView):
         self.object.user = self.request.user
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
-
     
 class NotesListView(LoginRequiredMixin, ListView):
     model = Note
