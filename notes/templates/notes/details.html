@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="border round">
+        <h1 class="my-5">{{ note.title }}</h1>
+        <p>{{ note.text }}</p>
+    </div>
+    <form method="POST" class="d-inline" action="{% url 'notes.like' pk=note.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Like</button>
+    </form>
+    <a href="{% url 'notes.list' %}" class="btn btn-secondary">Back to notes</a>
+    <a href="{% url 'notes.update' pk=note.id %}" class="btn btn-secondary">Edit</a>
+    <a href="{% url 'notes.delete' pk=note.id %}" class="btn btn-danger">Delete</a>
+    <div>
+        <h3>Likes: {{ note.likes }}</h3>
+    </div>
+{% endblock %}
