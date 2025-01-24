@@ -133,6 +133,12 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Login redirect
+
+LOGIN_REDIRECT_URL = 'smart/notes'
+
+# CSRF trusted origins
 IS_CODESPACE = os.environ.get('CODESPACES') == 'true'
 if IS_CODESPACE:
     CSRF_TRUSTED_ORIGINS = ['https://localhost:8080']
+

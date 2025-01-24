@@ -16,6 +16,14 @@ def add_like_view(request, pk):
         return HttpResponseRedirect(reverse('notes.detail', args=(pk,)))
     raise Http404
 
+def change_visibility_view(request, pk):
+    if request.method == 'POST':
+        note = get_object_or_404(Note, pk=pk)  
+        note.is_public = not note.is_public
+        note.save()
+        return HttpResponseRedirect(reverse('notes.detail', args=(pk,)))
+    raise Http404
+
 class NotesDeleteView(DeleteView):
     model = Note
     success_url = reverse_lazy('notes.list')
@@ -49,10 +57,16 @@ class NotesListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return self.request.user.notes.all()
 
-class NotesDetailView(DetailView):
+class NotesDetailView(LoginRequiredMixin, DetailView):
     model = Note
     template_name = 'notes/details.html'
     context_object_name = 'note'
+
+class NotesPublicDetailView(DetailView):
+    model = Note
+    template_name = 'notes/details.html'
+    context_object_name = 'note'
+    queryset = Note.objects.filter(is_public=True)
 
 class PopularNotesListView(ListView):
     model = Note
